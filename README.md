@@ -2,6 +2,8 @@
 
 A comprehensive end-to-end data analytics platform that combines automated ETL pipelines, time series forecasting (ARIMA/SARIMA + Machine Learning), and interactive dashboards to support airport operations management and retail demand planning.
 
+![Dashboard Preview](assets/work_demo.png)
+
 ---
 
 ## Overview
