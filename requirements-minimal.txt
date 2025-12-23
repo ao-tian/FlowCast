@@ -1,0 +1,48 @@
+# Minimal requirements for core functionality (Python 3.12 compatible)
+# Use this if the full requirements.txt has installation issues
+
+# Core dependencies
+pandas>=2.0.0
+numpy>=1.24.0,<2.0.0
+python-dotenv==1.0.0
+setuptools>=65.0.0
+
+# Database
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.23
+
+# Data validation (optional - comment out if issues)
+great-expectations==0.18.8
+
+# Time series analysis
+statsmodels==0.14.0
+pmdarima==2.0.4
+
+# Machine learning (core)
+scikit-learn==1.3.2
+xgboost==2.0.3
+# lightgbm removed - not essential and has Python 3.12 build issues
+
+# Visualization
+matplotlib==3.8.2
+seaborn==0.13.0
+plotly==5.18.0
+
+# Dashboard
+streamlit==1.29.0
+
+# Workflow automation (optional - skip if issues)
+# prefect removed - pendulum dependency has Python 3.12 issues
+
+# Utilities
+requests==2.31.0
+openpyxl==3.1.2
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+
+# Code quality
+black==23.12.1
+flake8==6.1.0
+

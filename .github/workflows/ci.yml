@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: airport_db
+          POSTGRES_USER: airport_user
+          POSTGRES_PASSWORD: airport_password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Run tests
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_NAME: airport_db
+        DB_USER: airport_user
+        DB_PASSWORD: airport_password
+      run: |
+        pytest tests/ -v --cov=. --cov-report=xml
+    
+    - name: Run ETL pipeline (test)
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_NAME: airport_db
+        DB_USER: airport_user
+        DB_PASSWORD: airport_password
+      run: |
+        python -m etl.run_pipeline
+
